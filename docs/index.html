@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure File Transfer Guide - Data Transfer System</title>
+    <title>Data Transfer System - Secure File Transfer</title>
     <style>
         * {
             margin: 0;
@@ -46,61 +46,37 @@
             transform: scale(1.1);
         }
 
-        /* Floating Table of Contents */
-        .toc-container {
-            position: fixed;
-            top: 120px;
-            right: 20px;
-            width: 280px;
-            max-height: calc(100vh - 140px);
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            overflow-y: auto;
-            z-index: 999;
-            padding: 20px;
+        /* Navigation */
+        .nav-bar {
+            background: #2c3e50;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .toc-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #3498db;
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
         }
 
-        .toc {
-            list-style: none;
-        }
-
-        .toc li {
-            margin-bottom: 8px;
-        }
-
-        .toc a {
+        .nav-container a {
+            color: white;
             text-decoration: none;
-            color: #555;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            display: block;
-            padding: 5px 0;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            font-weight: 500;
         }
 
-        .toc a:hover {
-            color: #3498db;
-            padding-left: 5px;
+        .nav-container a:hover {
+            background: #34495e;
         }
 
-        .toc .active {
-            color: #3498db;
-            font-weight: bold;
-            padding-left: 5px;
-        }
-
-        /* Nested TOC levels */
-        .toc .level-2 {
-            padding-left: 15px;
+        .nav-container a.active {
+            background: #3498db;
         }
 
         /* Main content */
@@ -113,125 +89,163 @@
             min-height: 100vh;
         }
 
-        .content {
-            margin-right: 320px;
-        }
-
         h1 {
-            font-size: 2.5em;
+            font-size: 2.8em;
             color: #2c3e50;
             border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
             margin-top: 0;
             margin-bottom: 30px;
+            text-align: center;
         }
 
         h2 {
             font-size: 2em;
             color: #2c3e50;
-            border-bottom: 2px solid #ecf0f1;
-            padding-bottom: 8px;
             margin-top: 40px;
             margin-bottom: 20px;
-            scroll-margin-top: 20px;
         }
 
-        h3 {
-            font-size: 1.5em;
-            color: #34495e;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            scroll-margin-top: 20px;
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        p {
-            margin-bottom: 15px;
+        .hero h2 {
+            font-size: 2.5em;
+            margin: 0 0 20px 0;
+            color: white;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .intro-text {
+            font-size: 1.2em;
             line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+            text-align: center;
         }
 
-        ul, ol {
-            margin-left: 30px;
-            margin-bottom: 20px;
-        }
-
-        li {
-            margin-bottom: 10px;
-            line-height: 1.8;
-        }
-
-        code {
-            background-color: #f4f4f4;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-family: 'Courier New', Consolas, Monaco, monospace;
-            font-size: 0.9em;
-            color: #e74c3c;
-        }
-
-        pre {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 20px;
-            border-radius: 6px;
-            overflow-x: auto;
-            margin: 20px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        pre code {
-            background-color: transparent;
-            color: #ecf0f1;
-            padding: 0;
-            font-size: 0.95em;
-            line-height: 1.5;
-        }
-
-        .warning {
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-
-        .warning::before {
-            content: "⚠️ ";
-            font-weight: bold;
-        }
-
-        hr {
-            border: none;
-            border-top: 2px solid #ecf0f1;
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
             margin: 40px 0;
         }
 
-        .section-intro {
-            background-color: #e8f4f8;
-            padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 30px;
+        .feature-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-left: 4px solid #3498db;
         }
 
-        .note {
-            background-color: #e8f5e9;
-            border-left: 4px solid #4caf50;
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-radius: 4px;
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .feature-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .guide-links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .guide-link-card {
+            background: white;
+            border: 2px solid #3498db;
+            padding: 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .guide-link-card:hover {
+            background: #3498db;
+            color: white;
+            transform: translateX(10px);
+            box-shadow: 0 8px 16px rgba(52, 152, 219, 0.3);
+        }
+
+        .guide-link-card .icon {
+            font-size: 3em;
+            min-width: 60px;
+        }
+
+        .guide-link-card .content h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+        }
+
+        .guide-link-card .content p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .cta-section {
+            background: #e8f4f8;
+            padding: 40px;
+            border-radius: 10px;
+            margin: 40px 0;
+            text-align: center;
+            border-left: 4px solid #3498db;
+        }
+
+        .cta-section h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        .cta-section p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .security-badge {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 10px 5px;
         }
 
         /* Responsive design */
-        @media (max-width: 1200px) {
-            .toc-container {
-                display: none;
-            }
-
-            .content {
-                margin-right: 0;
-            }
-        }
-
         @media (max-width: 768px) {
             .container {
                 padding: 20px 15px;
@@ -246,37 +260,28 @@
                 font-size: 2em;
             }
 
-            h2 {
-                font-size: 1.5em;
+            .hero h2 {
+                font-size: 1.8em;
             }
 
-            h3 {
-                font-size: 1.2em;
+            .hero p {
+                font-size: 1.1em;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .guide-link-card {
+                flex-direction: column;
+                text-align: center;
             }
         }
 
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
-        }
-
-        /* Custom scrollbar for TOC */
-        .toc-container::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .toc-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 3px;
-        }
-
-        .toc-container::-webkit-scrollbar-thumb {
-            background: #3498db;
-            border-radius: 3px;
-        }
-
-        .toc-container::-webkit-scrollbar-thumb:hover {
-            background: #2980b9;
         }
     </style>
 </head>
@@ -287,220 +292,106 @@
     <!-- Header Banner -->
     <img src="header-banner.png" alt="Data Transfer System Header" class="header-banner">
 
-    <!-- Floating Table of Contents -->
-    <div class="toc-container">
-        <div class="toc-title">Table of Contents</div>
-        <ul class="toc">
-            <li><a href="#install">1. Install age</a></li>
-            <li><a href="#generate-key">2. Generate Encryption Key</a></li>
-            <li><a href="#encrypt">3. Encrypt Files</a></li>
-            <li><a href="#upload">4. Upload to OneDrive</a></li>
-            <li><a href="#download">5. Download Files</a></li>
-            <li><a href="#decrypt">6. Decrypt Files</a></li>
-            <li><a href="#multi-recipient">7. Multi-Recipient</a></li>
-            <li><a href="#workflow">8. Workflow Summary</a></li>
-            <li><a href="#security">Security Best Practices</a></li>
-        </ul>
-    </div>
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="index.html" class="active">Home</a>
+            <a href="sharepoint-age.html">SharePoint Upload Guide</a>
+        </div>
+    </nav>
 
     <!-- Main Content -->
     <div class="container">
-        <div class="content">
-            <h1>Secure File Transfer Guide Using <code>age</code> and OneDrive</h1>
+        <h1>Data Transfer System</h1>
 
-            <div class="section-intro">
-                <p>This guide explains how to:</p>
-                <ul>
-                    <li>Install <code>age</code></li>
-                    <li>Encrypt files before upload</li>
-                    <li>Upload to SharePoint (max 250 GB per file)</li>
-                    <li>Download securely</li>
-                    <li>Decrypt files</li>
-                </ul>
-            </div>
-
-            <hr>
-
-            <h2 id="install">1. Install <code>age</code></h2>
-
-            <h3>macOS (Homebrew)</h3>
-            <pre><code>brew install age</code></pre>
-
-            <h3>Ubuntu / Debian</h3>
-            <pre><code>sudo apt update
-sudo apt install age</code></pre>
-
-            <p>If not available via apt:</p>
-            <pre><code>sudo snap install age</code></pre>
-
-            <h3>Windows</h3>
-            <p>Download the latest release from:<br>
-            <a href="https://github.com/FiloSottile/age/releases" target="_blank">https://github.com/FiloSottile/age/releases</a></p>
-            <p>Unzip and add the binary to your PATH.</p>
-
-            <p>Verify installation:</p>
-            <pre><code>age --version</code></pre>
-
-            <hr>
-
-            <h2 id="generate-key">2. Generate Your Encryption Key (One Time Only)</h2>
-
-            <p>Each user should generate their own key pair.</p>
-            <pre><code>age-keygen -o key.txt</code></pre>
-
-            <p>This creates:</p>
-            <ul>
-                <li><code>key.txt</code> → your PRIVATE key (keep secret)</li>
-                <li>A public key displayed in the terminal (starts with <code>age1...</code>)</li>
-            </ul>
-
-            <div class="warning">
-                Store <code>key.txt</code> securely. Never upload it to OneDrive.
-            </div>
-
-            <hr>
-
-            <h2 id="encrypt">3. Encrypt a File Before Upload</h2>
-
-            <p>Assume the file is:</p>
-            <pre><code>large_data.fastq.gz</code></pre>
-
-            <p>Encrypt using the recipient's public key:</p>
-            <pre><code>age -r age1RECIPIENTPUBLICKEY -o large_data.fastq.gz.age large_data.fastq.gz</code></pre>
-
-            <p>After encryption:</p>
-            <ul>
-                <li>Upload ONLY the <code>.age</code> file</li>
-                <li>Delete the original file if required by policy</li>
-            </ul>
-
-            <hr>
-
-            <h2 id="upload">4. Upload to OneDrive</h2>
-
-            <p>Upload the encrypted file:</p>
-            <pre><code>large_data.fastq.gz.age</code></pre>
-
-            <div class="note">
-                <p><strong>Notes:</strong></p>
-                <ul>
-                    <li>Maximum file size allowed: <strong>250 GB per file</strong></li>
-                    <li>Do not upload unencrypted data</li>
-                    <li>Share the download link separately</li>
-                </ul>
-            </div>
-
-            <p>Share encryption keys via secure channel (e.g., password manager). Never send private keys via OneDrive.</p>
-
-            <hr>
-
-            <h2 id="download">5. Download the File</h2>
-
-            <p>Recipient downloads:</p>
-            <pre><code>large_data.fastq.gz.age</code></pre>
-
-            <p>Place it in a secure working directory.</p>
-
-            <hr>
-
-            <h2 id="decrypt">6. Decrypt the File</h2>
-
-            <p>Using the private key:</p>
-            <pre><code>age -d -i key.txt -o large_data.fastq.gz large_data.fastq.gz.age</code></pre>
-
-            <p>After successful decryption:</p>
-            <ul>
-                <li>Verify file integrity</li>
-                <li>Remove encrypted file if required</li>
-            </ul>
-
-            <hr>
-
-            <h2 id="multi-recipient">7. Multi-Recipient Encryption (Optional)</h2>
-
-            <p>If multiple people need access:</p>
-            <pre><code>age -r age1KEY1 -r age1KEY2 -o file.age file</code></pre>
-
-            <p>Each recipient can decrypt using their own private key.</p>
-
-            <hr>
-
-            <h2 id="workflow">8. Recommended Workflow Summary</h2>
-
-            <ol>
-                <li>Generate key (one time)</li>
-                <li>Exchange public keys</li>
-                <li>Encrypt file</li>
-                <li>Upload encrypted file to OneDrive (≤ 250 GB)</li>
-                <li>Share link</li>
-                <li>Recipient downloads</li>
-                <li>Recipient decrypts locally</li>
-            </ol>
-
-            <hr>
-
-            <h2 id="security">Security Best Practices</h2>
-
-            <ul>
-                <li>Never upload private keys</li>
-                <li>Never email private keys</li>
-                <li>Use secure password manager for key exchange</li>
-                <li>Delete unencrypted temporary files</li>
-                <li>Store private keys in encrypted disk or password vault</li>
-            </ul>
-
-            <hr>
-
-            <p style="text-align: center; color: #7f8c8d; margin-top: 60px;">
-                <em>End of Guide</em>
-            </p>
+        <div class="hero">
+            <h2>Secure Data Upload & Download</h2>
+            <p>Centralized platform for encrypted file transfer with enterprise-grade security</p>
         </div>
+
+        <p class="intro-text">
+            Welcome to the Data Transfer System - your centralized solution for securely uploading 
+            and downloading large files with end-to-end encryption. Protect sensitive data while 
+            maintaining ease of use and compliance with data security policies.
+        </p>
+
+        <h2>🔒 Why Secure File Transfer Matters</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>End-to-End Encryption</h3>
+                <p>Files are encrypted before upload and decrypted only by authorized recipients. Your data remains secure throughout the entire transfer process.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📦</div>
+                <h3>Large File Support</h3>
+                <p>Transfer files up to 250 GB per file using SharePoint infrastructure while maintaining security and integrity.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔑</div>
+                <h3>Key Management</h3>
+                <p>Simple public-private key system ensures only intended recipients can access your data. No passwords to remember or share.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>Compliance Ready</h3>
+                <p>Meet regulatory requirements for data protection with industry-standard encryption and secure transfer protocols.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>Easy to Use</h3>
+                <p>Simple command-line tools that work on Windows, macOS, and Linux. No complex setup or configuration required.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Multi-Recipient</h3>
+                <p>Encrypt files for multiple recipients simultaneously. Each person can decrypt using their own private key.</p>
+            </div>
+        </div>
+
+        <h2>📚 Available Guides</h2>
+        <div class="guide-links">
+            <a href="sharepoint-age.html" class="guide-link-card">
+                <div class="icon">📤</div>
+                <div class="content">
+                    <h3>SharePoint Upload Guide</h3>
+                    <p>Complete guide for encrypting files with age and uploading to SharePoint/OneDrive. Includes installation, encryption, decryption, and security best practices.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Get Started?</h2>
+            <p>Choose a guide above to learn how to securely transfer your files using our encrypted upload system.</p>
+            <div>
+                <span class="security-badge">🔒 AES-256 Encryption</span>
+                <span class="security-badge">✓ Open Source</span>
+                <span class="security-badge">🛡️ Zero Knowledge</span>
+            </div>
+        </div>
+
+        <h2>🎯 Quick Overview</h2>
+        <div class="feature-card">
+            <h3>How It Works</h3>
+            <ol style="margin-left: 20px; line-height: 2;">
+                <li><strong>Install:</strong> Set up the encryption tool on your system (one-time setup)</li>
+                <li><strong>Generate Keys:</strong> Create your public/private key pair</li>
+                <li><strong>Encrypt:</strong> Encrypt files using recipient's public key</li>
+                <li><strong>Upload:</strong> Upload encrypted files to SharePoint/OneDrive</li>
+                <li><strong>Share:</strong> Send download link to recipient via secure channel</li>
+                <li><strong>Download:</strong> Recipient downloads the encrypted file</li>
+                <li><strong>Decrypt:</strong> Recipient decrypts using their private key</li>
+            </ol>
+        </div>
+
+        <p style="text-align: center; color: #7f8c8d; margin-top: 60px; padding-top: 40px; border-top: 2px solid #ecf0f1;">
+            <strong>Data Transfer System</strong> | Secure • Compliant • Easy to Use
+        </p>
     </div>
-
-    <script>
-        // Highlight active section in TOC
-        function highlightActiveTOC() {
-            const sections = document.querySelectorAll('h2[id]');
-            const tocLinks = document.querySelectorAll('.toc a');
-            
-            let currentSection = '';
-            const scrollPosition = window.scrollY + 150;
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollPosition >= sectionTop) {
-                    currentSection = section.id;
-                }
-            });
-            
-            tocLinks.forEach(link => {
-                link.classList.remove('active');
-                const href = link.getAttribute('href');
-                if (href === '#' + currentSection) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        // Update active TOC item on scroll
-        window.addEventListener('scroll', highlightActiveTOC);
-
-        // Smooth scroll for TOC links
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A' && e.target.getAttribute('href') && e.target.getAttribute('href').startsWith('#')) {
-                e.preventDefault();
-                const targetId = e.target.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
-        });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            highlightActiveTOC();
-        });
-    </script>
 </body>
 </html>
