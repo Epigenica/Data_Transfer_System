@@ -249,11 +249,11 @@
         function parseMarkdownContent(markdown) {
             let html = markdown;
             
-            // Convert headers
+            // Convert headers - process from most specific to least specific to avoid partial matches
+            html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
             html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
             html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
             html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-            html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
             
             // Convert bold text
             html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -267,7 +267,7 @@
             // Convert lists - unordered
             html = html.replace(/^-\s+(.*$)/gim, '<li>$1</li>');
             
-            // Wrap consecutive list items in ul/ol tags
+            // Wrap consecutive list items in ul tags
             html = html.replace(/(<li>.*<\/li>\n?)+/g, function(match) {
                 return '<ul>' + match + '</ul>';
             });
@@ -275,7 +275,7 @@
             // Convert line breaks to paragraphs
             html = html.split('\n\n').map(para => {
                 para = para.trim();
-                if (para && !para.startsWith('<h') && !para.startsWith('<ul') && !para.startsWith('<ol') && !para.startsWith('<li')) {
+                if (para && !para.startsWith('<h') && !para.startsWith('<ul') && !para.startsWith('<li')) {
                     return '<p>' + para + '</p>';
                 }
                 return para;
@@ -303,8 +303,8 @@
                 a.textContent = heading.textContent;
                 
                 // Add level class for styling
-                const level = heading.tagName.toLowerCase().replace('h', '');
-                a.classList.add('level-' + level);
+                const headingLevel = heading.tagName.toLowerCase().replace('h', '');
+                a.classList.add('level-' + headingLevel);
                 
                 li.appendChild(a);
                 toc.appendChild(li);
@@ -335,6 +335,7 @@
         }
 
         // Load content from instruction.md
+        // Note: When GitHub Pages serves from docs/ folder, '../instruction.md' correctly points to the repo root
         async function loadContent() {
             try {
                 const response = await fetch('../instruction.md');
@@ -345,7 +346,7 @@
                 highlightActiveTOC();
             } catch (error) {
                 console.error('Error loading content:', error);
-                document.getElementById('content').innerHTML = '<p>Error loading content. Please check that instruction.md exists.</p>';
+                document.getElementById('content').innerHTML = '<p>Error loading content. Please check that instruction.md exists in the repository root.</p>';
             }
         }
 

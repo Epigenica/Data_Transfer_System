@@ -7,7 +7,7 @@ This directory contains the GitHub Pages website for the Data Transfer System.
 - `index.html` - Main webpage with floating table of contents
 - `logo.png` - DTS logo displayed in the top-left corner
 - `header-banner.png` - Header banner image at the top of the page
-- Content is loaded from `../instruction.md`
+- Content is loaded from `../instruction.md` (in the repository root)
 
 ## Features
 
@@ -32,7 +32,9 @@ Then visit `http://localhost:8080/docs/` in your browser.
 
 Once GitHub Pages is enabled in the repository settings (Settings > Pages > Source: docs folder), the page will be available at:
 
-`https://epigenica.github.io/Data_Transfer_System/`
+`https://<username>.github.io/<repository-name>/`
+
+For example: `https://epigenica.github.io/Data_Transfer_System/`
 
 ## Customization
 
