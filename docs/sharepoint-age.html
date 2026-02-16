@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SharePoint Upload Guide - Data Transfer System</title>
+    <title>Public Key Encryption (Alternative) - Data Transfer System</title>
     <style>
         * {
             margin: 0;
@@ -330,16 +330,18 @@
     <nav class="nav-bar">
         <div class="nav-container">
             <a href="index.html">Home</a>
-            <a href="sharepoint-age.html" class="active">SharePoint Upload Guide</a>
+            <a href="upload-guide.html">Upload Guide</a>
+            <a href="download-guide.html">Download Guide</a>
+            <a href="sharepoint-age.html" class="active">Alternative (Public Key)</a>
         </div>
     </nav>
 
     <!-- Floating Table of Contents -->
     <div class="toc-container">
-        <div class="toc-title">On This Page</div>
+        <div class="toc-title">Alternative Method</div>
         <ul class="toc">
             <li><a href="#install">1. Install age</a></li>
-            <li><a href="#generate-key">2. Generate Encryption Key</a></li>
+            <li><a href="#generate-key">2. Generate Key (Optional)</a></li>
             <li><a href="#encrypt">3. Encrypt Files</a></li>
             <li><a href="#upload">4. Upload to OneDrive</a></li>
             <li><a href="#download">5. Download Files</a></li>
@@ -353,16 +355,26 @@
     <!-- Main Content -->
     <div class="container">
         <div class="content">
-            <h1>Secure File Transfer Guide Using <code>age</code> and SharePoint</h1>
+            <h1>Public Key Encryption Guide (Alternative Method)</h1>
+
+            <div class="warning">
+                <h3>⚠️ Recommended: Use Passphrase Method Instead</h3>
+                <p>For most users, we recommend the <strong>simpler passphrase-based encryption</strong> method:</p>
+                <ul>
+                    <li><a href="upload-guide.html" style="color: #e65100; font-weight: bold;">📤 Upload Guide (Passphrase Method)</a> - Easier to use, no key management</li>
+                    <li><a href="download-guide.html" style="color: #e65100; font-weight: bold;">📥 Download Guide (Passphrase Method)</a> - Simple decryption process</li>
+                </ul>
+                <p><strong>This page describes an alternative method using public-key cryptography</strong>, which is more complex but may be preferred for specific use cases.</p>
+            </div>
 
             <div class="section-intro">
-                <p>This guide explains how to:</p>
+                <p>This alternative guide explains how to:</p>
                 <ul>
                     <li>Install <code>age</code></li>
+                    <li>Use public-key encryption (more complex)</li>
                     <li>Encrypt files before upload</li>
                     <li>Upload to SharePoint (max 250 GB per file)</li>
-                    <li>Download securely</li>
-                    <li>Decrypt files</li>
+                    <li>Download and decrypt with private keys</li>
                 </ul>
             </div>
 
@@ -390,7 +402,11 @@ sudo apt install age</code></pre>
 
             <hr>
 
-            <h2 id="generate-key">2. Generate Your Encryption Key (One Time Only)</h2>
+            <h2 id="generate-key">2. Generate Your Encryption Key (Public-Key Method)</h2>
+
+            <div class="note">
+                <strong>Note:</strong> This step is only needed for the public-key encryption method. If using the recommended <a href="upload-guide.html">passphrase method</a>, skip this section.
+            </div>
 
             <p>Each user should generate their own key pair.</p>
             <pre><code>age-keygen -o key.txt</code></pre>

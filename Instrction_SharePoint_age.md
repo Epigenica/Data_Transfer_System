@@ -1,151 +1,115 @@
-# Secure File Transfer Guide Using `age` and OneDrive
+# Secure File Transfer Guide Using `age` and SharePoint
 
-This guide explains how to:  
-- Install `age` 
-- Encrypt files before upload   
-- Upload to SharePoint (max 250 GB per file)   
-- Download securely   
-- Decrypt files   
+This repository contains comprehensive guides for securely transferring files using encryption.
 
 ------------------------------------------------------------------------
 
-# 1. Install `age`
+## Available Methods
 
-## macOS (Homebrew)
+### Method 1: Compression + Encryption (Passphrase Mode) - RECOMMENDED
 
-``` bash
-brew install age
+This guide explains how to securely:
+- Compress and encrypt a folder using a passphrase
+- Decrypt and extract the folder
+- Handle passphrase sharing securely
+
+This method is designed for transferring large folders (e.g., sequencing data) via SharePoint.
+
+See separate guides for:
+- **Upload Guide**: Instructions for senders
+- **Download Guide**: Instructions for recipients
+
+### Method 2: Public Key Encryption (Legacy)
+
+Traditional age encryption using public/private key pairs. See the Legacy Guide for details.
+
+------------------------------------------------------------------------
+
+# Compression + Encryption Guide (Passphrase Mode)
+
+## 1️⃣ Sender Instructions
+
+### Compress + Encrypt (Passphrase Mode)
+
+This method compresses and encrypts in a single step without creating an unencrypted archive on disk.
+
+```bash
+tar -czf - folder_name/ | age -p -o folder_name.tar.gz.age
 ```
 
-## Ubuntu / Debian
+You will be prompted to enter a passphrase.
 
-``` bash
-sudo apt update
-sudo apt install age
+### Important:
+- Use a strong passphrase (20+ random characters).
+- Do NOT reuse passphrases.
+- Do NOT store the passphrase in the same location as the file.
+
+After encryption, upload:
+```
+folder_name.tar.gz.age
+```
+to SharePoint.
+
+------------------------------------------------------------------------
+
+## 2️⃣ Passphrase Sharing Policy
+
+The passphrase will be sent in a separate email.
+
+- The email will contain a passphrase valid for a limited duration.
+- Customers may reply using secure email practices.
+- The encrypted file and passphrase must NEVER be sent in the same message.
+
+Recommended practice:
+- Delete the passphrase email after use.
+- Do not forward passphrases.
+- Store passphrases temporarily only.
+
+------------------------------------------------------------------------
+
+## 3️⃣ Recipient Instructions
+
+### Decrypt + Extract
+
+To decrypt and extract in one step:
+
+```bash
+age -d folder_name.tar.gz.age | tar -xzf -
 ```
 
-If not available via apt:
+You will be prompted to enter the passphrase.
 
-``` bash
-sudo snap install age
+After successful extraction:
+- Verify the folder contents.
+- Delete the encrypted file if required by policy.
+
+------------------------------------------------------------------------
+
+## Alternative (Two-Step Decryption)
+
+If preferred, decrypt first:
+
+```bash
+age -d -o folder_name.tar.gz folder_name.tar.gz.age
 ```
 
-## Windows
+Then extract:
 
-Download the latest release from:
-https://github.com/FiloSottile/age/releases
-
-Unzip and add the binary to your PATH.
-
-Verify installation:
-
-``` bash
-age --version
+```bash
+tar -xzf folder_name.tar.gz
 ```
 
-------------------------------------------------------------------------
-
-# 2. Generate Your Encryption Key (One Time Only)
-
-Each user should generate their own key pair.
-
-``` bash
-age-keygen -o key.txt
-```
-
-This creates: - `key.txt` → your PRIVATE key (keep secret) - A public
-key displayed in the terminal (starts with `age1...`)
-
-⚠️ Store `key.txt` securely. Never upload it to OneDrive.
+After extraction, securely delete the `.tar.gz` file if required.
 
 ------------------------------------------------------------------------
 
-# 3. Encrypt a File Before Upload
+# Security Notes
 
-Assume the file is:
-
-    large_data.fastq.gz
-
-Encrypt using the recipient's public key:
-
-``` bash
-age -r age1RECIPIENTPUBLICKEY -o large_data.fastq.gz.age large_data.fastq.gz
-```
-
-After encryption: - Upload ONLY the `.age` file - Delete the original
-file if required by policy
+- Never upload unencrypted data.
+- Never store passphrases permanently in plaintext files.
+- Use strong, randomly generated passphrases.
+- Delete temporary decrypted archives when finished.
 
 ------------------------------------------------------------------------
 
-# 4. Upload to OneDrive
-
-Upload the encrypted file:
-
-    large_data.fastq.gz.age
-
-Notes: - Maximum file size allowed: **250 GB per file** - Do not upload
-unencrypted data - Share the download link separately
-
-Share encryption keys via secure channel (e.g., password manager). Never
-send private keys via OneDrive.
-
-------------------------------------------------------------------------
-
-# 5. Download the File
-
-Recipient downloads:
-
-    large_data.fastq.gz.age
-
-Place it in a secure working directory.
-
-------------------------------------------------------------------------
-
-# 6. Decrypt the File
-
-Using the private key:
-
-``` bash
-age -d -i key.txt -o large_data.fastq.gz large_data.fastq.gz.age
-```
-
-After successful decryption: - Verify file integrity - Remove encrypted
-file if required
-
-------------------------------------------------------------------------
-
-# 7. Multi-Recipient Encryption (Optional)
-
-If multiple people need access:
-
-``` bash
-age -r age1KEY1 -r age1KEY2 -o file.age file
-```
-
-Each recipient can decrypt using their own private key.
-
-------------------------------------------------------------------------
-
-# 8. Recommended Workflow Summary
-
-1.  Generate key (one time)
-2.  Exchange public keys
-3.  Encrypt file
-4.  Upload encrypted file to OneDrive (≤ 250 GB)
-5.  Share link
-6.  Recipient downloads
-7.  Recipient decrypts locally
-
-------------------------------------------------------------------------
-
-# Security Best Practices
-
--   Never upload private keys
--   Never email private keys
--   Use secure password manager for key exchange
--   Delete unencrypted temporary files
--   Store private keys in encrypted disk or password vault
-
-------------------------------------------------------------------------
-
-End of Guide
+© Secure Data Transfer Instructions
