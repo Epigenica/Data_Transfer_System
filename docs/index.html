@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Transfer System - Secure File Transfer</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
     <style>
         * {
             margin: 0;
@@ -245,7 +249,69 @@
             margin: 10px 5px;
         }
 
+        /* Workflow Comparison Grid */
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .workflow-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .workflow-card.recommended {
+            border-color: #3498db;
+            background: linear-gradient(to bottom, #f8fcff 0%, white 100%);
+        }
+
+        .workflow-card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .workflow-card .badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+
+        .workflow-card .badge.advanced {
+            background: #95a5a6;
+        }
+
+        .workflow-card p {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 0.95em;
+        }
+
         /* Responsive design */
+        @media (max-width: 1024px) {
+            .workflow-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px 15px;
@@ -392,17 +458,66 @@
         </div>
 
         <h2>🎯 Quick Overview</h2>
-        <div class="feature-card">
-            <h3>How It Works</h3>
-            <ol style="margin-left: 20px; line-height: 2;">
-                <li><strong>Install:</strong> Set up the encryption tool on your system (one-time setup)</li>
-                <li><strong>Generate Keys:</strong> Create your public/private key pair</li>
-                <li><strong>Encrypt:</strong> Encrypt files using recipient's public key</li>
-                <li><strong>Upload:</strong> Upload encrypted files to SharePoint/OneDrive</li>
-                <li><strong>Share:</strong> Send download link to recipient via secure channel</li>
-                <li><strong>Download:</strong> Recipient downloads the encrypted file</li>
-                <li><strong>Decrypt:</strong> Recipient decrypts using their private key</li>
-            </ol>
+        <p style="text-align: center; color: #555; margin-bottom: 30px; font-size: 1.1em;">Choose the method that works best for you:</p>
+        
+        <div class="workflow-grid">
+            <!-- Passphrase Method -->
+            <div class="workflow-card recommended">
+                <h3>
+                    🔐 Passphrase Method
+                    <span class="badge">Recommended</span>
+                </h3>
+                <p>Simple and secure - just set a passphrase and share it with your recipient. Perfect for most use cases.</p>
+                <div class="mermaid">
+flowchart TD
+    Start([Start: Need to Share Data]) --> Install[📦 Install age Tool<br/>One-time setup]
+    Install --> Compress[🗜️ Compress Folder<br/>tar -czf]
+    Compress --> Encrypt[🔐 Encrypt with Passphrase<br/>age -p]
+    Encrypt --> Upload[📤 Upload to SharePoint<br/>Max 250 GB per file]
+    Upload --> ShareLink[🔗 Share Download Link<br/>Via secure channel]
+    ShareLink --> SharePass[🔑 Share Passphrase<br/>Separately & securely]
+    SharePass --> Download[📥 Recipient Downloads<br/>Encrypted file]
+    Download --> Decrypt[🔓 Decrypt with Passphrase<br/>age -d]
+    Decrypt --> Extract[📂 Extract Files<br/>tar -xzf]
+    Extract --> Done([✅ Complete: Files Accessible])
+    
+    style Start fill:#e3f2fd
+    style Done fill:#c8e6c9
+    style Encrypt fill:#fff9c4
+    style Decrypt fill:#fff9c4
+    style SharePass fill:#ffccbc
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9em;">👉 <a href="upload-guide.html" style="color: #3498db; font-weight: bold;">Upload Guide</a> | <a href="download-guide.html" style="color: #3498db; font-weight: bold;">Download Guide</a></p>
+            </div>
+
+            <!-- Public Key Method -->
+            <div class="workflow-card">
+                <h3>
+                    🔑 Public-Key Method
+                    <span class="badge advanced">Advanced</span>
+                </h3>
+                <p>Uses public/private key pairs - more complex but useful for workflows requiring key-based authentication.</p>
+                <div class="mermaid">
+flowchart TD
+    Start([Start: Need to Share Data]) --> Install[📦 Install age Tool<br/>One-time setup]
+    Install --> GenKey[🔑 Generate Key Pair<br/>age-keygen]
+    GenKey --> ExchangeKey[🔄 Exchange Public Keys<br/>Share recipient's public key]
+    ExchangeKey --> Encrypt[🔐 Encrypt with Public Key<br/>age -r PUBKEY]
+    Encrypt --> Upload[📤 Upload to SharePoint<br/>Max 250 GB per file]
+    Upload --> ShareLink[🔗 Share Download Link<br/>Via secure channel]
+    ShareLink --> Download[📥 Recipient Downloads<br/>Encrypted file]
+    Download --> Decrypt[🔓 Decrypt with Private Key<br/>age -d -i key.txt]
+    Decrypt --> Done([✅ Complete: Files Accessible])
+    
+    style Start fill:#e3f2fd
+    style Done fill:#c8e6c9
+    style GenKey fill:#ffccbc
+    style ExchangeKey fill:#ffccbc
+    style Encrypt fill:#fff9c4
+    style Decrypt fill:#fff9c4
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9em;">👉 <a href="sharepoint-age.html" style="color: #3498db; font-weight: bold;">Installation & Public-Key Guide</a></p>
+            </div>
         </div>
 
         <p style="text-align: center; color: #7f8c8d; margin-top: 60px; padding-top: 40px; border-top: 2px solid #ecf0f1;">
