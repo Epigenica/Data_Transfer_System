@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Transfer System - Instructions</title>
+    <title>Secure File Transfer Guide - Data Transfer System</title>
     <style>
         * {
             margin: 0;
@@ -23,6 +23,8 @@
             width: 100%;
             height: auto;
             display: block;
+            max-height: 300px;
+            object-fit: cover;
         }
 
         /* Logo */
@@ -36,6 +38,8 @@
             border-radius: 50%;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
+            background: white;
+            padding: 5px;
         }
 
         .logo:hover {
@@ -99,74 +103,122 @@
             padding-left: 15px;
         }
 
-        .toc .level-3 {
-            padding-left: 30px;
-            font-size: 13px;
-        }
-
         /* Main content */
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
             background: white;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
         }
 
         .content {
-            margin-right: 320px; /* Space for TOC */
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            color: #2c3e50;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            scroll-margin-top: 20px;
+            margin-right: 320px;
         }
 
         h1 {
             font-size: 2.5em;
+            color: #2c3e50;
             border-bottom: 3px solid #3498db;
             padding-bottom: 10px;
             margin-top: 0;
+            margin-bottom: 30px;
         }
 
         h2 {
             font-size: 2em;
+            color: #2c3e50;
             border-bottom: 2px solid #ecf0f1;
             padding-bottom: 8px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            scroll-margin-top: 20px;
         }
 
         h3 {
             font-size: 1.5em;
             color: #34495e;
-        }
-
-        h4 {
-            font-size: 1.2em;
-            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            scroll-margin-top: 20px;
         }
 
         p {
             margin-bottom: 15px;
-            text-align: justify;
+            line-height: 1.8;
         }
 
         ul, ol {
             margin-left: 30px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         li {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            line-height: 1.8;
         }
 
         code {
             background-color: #f4f4f4;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', Consolas, Monaco, monospace;
             font-size: 0.9em;
+            color: #e74c3c;
+        }
+
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        pre code {
+            background-color: transparent;
+            color: #ecf0f1;
+            padding: 0;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .warning::before {
+            content: "⚠️ ";
+            font-weight: bold;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ecf0f1;
+            margin: 40px 0;
+        }
+
+        .section-intro {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+
+        .note {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
         }
 
         /* Responsive design */
@@ -197,6 +249,10 @@
             h2 {
                 font-size: 1.5em;
             }
+
+            h3 {
+                font-size: 1.2em;
+            }
         }
 
         /* Smooth scrolling */
@@ -226,7 +282,7 @@
 </head>
 <body>
     <!-- Logo -->
-    <img src="logo.png" alt="DTS Logo" class="logo">
+    <img src="logo.png" alt="Data Transfer System Logo" class="logo">
 
     <!-- Header Banner -->
     <img src="header-banner.png" alt="Data Transfer System Header" class="header-banner">
@@ -234,90 +290,181 @@
     <!-- Floating Table of Contents -->
     <div class="toc-container">
         <div class="toc-title">Table of Contents</div>
-        <ul class="toc" id="toc"></ul>
+        <ul class="toc">
+            <li><a href="#install">1. Install age</a></li>
+            <li><a href="#generate-key">2. Generate Encryption Key</a></li>
+            <li><a href="#encrypt">3. Encrypt Files</a></li>
+            <li><a href="#upload">4. Upload to OneDrive</a></li>
+            <li><a href="#download">5. Download Files</a></li>
+            <li><a href="#decrypt">6. Decrypt Files</a></li>
+            <li><a href="#multi-recipient">7. Multi-Recipient</a></li>
+            <li><a href="#workflow">8. Workflow Summary</a></li>
+            <li><a href="#security">Security Best Practices</a></li>
+        </ul>
     </div>
 
     <!-- Main Content -->
     <div class="container">
-        <div class="content" id="content">
-            <!-- Content will be loaded here -->
+        <div class="content">
+            <h1>Secure File Transfer Guide Using <code>age</code> and OneDrive</h1>
+
+            <div class="section-intro">
+                <p>This guide explains how to:</p>
+                <ul>
+                    <li>Install <code>age</code></li>
+                    <li>Encrypt files before upload</li>
+                    <li>Upload to SharePoint (max 250 GB per file)</li>
+                    <li>Download securely</li>
+                    <li>Decrypt files</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <h2 id="install">1. Install <code>age</code></h2>
+
+            <h3>macOS (Homebrew)</h3>
+            <pre><code>brew install age</code></pre>
+
+            <h3>Ubuntu / Debian</h3>
+            <pre><code>sudo apt update
+sudo apt install age</code></pre>
+
+            <p>If not available via apt:</p>
+            <pre><code>sudo snap install age</code></pre>
+
+            <h3>Windows</h3>
+            <p>Download the latest release from:<br>
+            <a href="https://github.com/FiloSottile/age/releases" target="_blank">https://github.com/FiloSottile/age/releases</a></p>
+            <p>Unzip and add the binary to your PATH.</p>
+
+            <p>Verify installation:</p>
+            <pre><code>age --version</code></pre>
+
+            <hr>
+
+            <h2 id="generate-key">2. Generate Your Encryption Key (One Time Only)</h2>
+
+            <p>Each user should generate their own key pair.</p>
+            <pre><code>age-keygen -o key.txt</code></pre>
+
+            <p>This creates:</p>
+            <ul>
+                <li><code>key.txt</code> → your PRIVATE key (keep secret)</li>
+                <li>A public key displayed in the terminal (starts with <code>age1...</code>)</li>
+            </ul>
+
+            <div class="warning">
+                Store <code>key.txt</code> securely. Never upload it to OneDrive.
+            </div>
+
+            <hr>
+
+            <h2 id="encrypt">3. Encrypt a File Before Upload</h2>
+
+            <p>Assume the file is:</p>
+            <pre><code>large_data.fastq.gz</code></pre>
+
+            <p>Encrypt using the recipient's public key:</p>
+            <pre><code>age -r age1RECIPIENTPUBLICKEY -o large_data.fastq.gz.age large_data.fastq.gz</code></pre>
+
+            <p>After encryption:</p>
+            <ul>
+                <li>Upload ONLY the <code>.age</code> file</li>
+                <li>Delete the original file if required by policy</li>
+            </ul>
+
+            <hr>
+
+            <h2 id="upload">4. Upload to OneDrive</h2>
+
+            <p>Upload the encrypted file:</p>
+            <pre><code>large_data.fastq.gz.age</code></pre>
+
+            <div class="note">
+                <p><strong>Notes:</strong></p>
+                <ul>
+                    <li>Maximum file size allowed: <strong>250 GB per file</strong></li>
+                    <li>Do not upload unencrypted data</li>
+                    <li>Share the download link separately</li>
+                </ul>
+            </div>
+
+            <p>Share encryption keys via secure channel (e.g., password manager). Never send private keys via OneDrive.</p>
+
+            <hr>
+
+            <h2 id="download">5. Download the File</h2>
+
+            <p>Recipient downloads:</p>
+            <pre><code>large_data.fastq.gz.age</code></pre>
+
+            <p>Place it in a secure working directory.</p>
+
+            <hr>
+
+            <h2 id="decrypt">6. Decrypt the File</h2>
+
+            <p>Using the private key:</p>
+            <pre><code>age -d -i key.txt -o large_data.fastq.gz large_data.fastq.gz.age</code></pre>
+
+            <p>After successful decryption:</p>
+            <ul>
+                <li>Verify file integrity</li>
+                <li>Remove encrypted file if required</li>
+            </ul>
+
+            <hr>
+
+            <h2 id="multi-recipient">7. Multi-Recipient Encryption (Optional)</h2>
+
+            <p>If multiple people need access:</p>
+            <pre><code>age -r age1KEY1 -r age1KEY2 -o file.age file</code></pre>
+
+            <p>Each recipient can decrypt using their own private key.</p>
+
+            <hr>
+
+            <h2 id="workflow">8. Recommended Workflow Summary</h2>
+
+            <ol>
+                <li>Generate key (one time)</li>
+                <li>Exchange public keys</li>
+                <li>Encrypt file</li>
+                <li>Upload encrypted file to OneDrive (≤ 250 GB)</li>
+                <li>Share link</li>
+                <li>Recipient downloads</li>
+                <li>Recipient decrypts locally</li>
+            </ol>
+
+            <hr>
+
+            <h2 id="security">Security Best Practices</h2>
+
+            <ul>
+                <li>Never upload private keys</li>
+                <li>Never email private keys</li>
+                <li>Use secure password manager for key exchange</li>
+                <li>Delete unencrypted temporary files</li>
+                <li>Store private keys in encrypted disk or password vault</li>
+            </ul>
+
+            <hr>
+
+            <p style="text-align: center; color: #7f8c8d; margin-top: 60px;">
+                <em>End of Guide</em>
+            </p>
         </div>
     </div>
 
     <script>
-        // Function to convert markdown-style content to HTML
-        function parseMarkdownContent(markdown) {
-            let html = markdown;
-            
-            // Convert headers - process from most specific to least specific to avoid partial matches
-            html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
-            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-            
-            // Convert bold text
-            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            
-            // Convert inline code
-            html = html.replace(/`(.*?)`/g, '<code>$1</code>');
-            
-            // Convert lists - ordered
-            html = html.replace(/^\d+\.\s+(.*$)/gim, '<li>$1</li>');
-            
-            // Convert lists - unordered
-            html = html.replace(/^-\s+(.*$)/gim, '<li>$1</li>');
-            
-            // Wrap consecutive list items in ul tags
-            html = html.replace(/(<li>.*<\/li>\n?)+/g, function(match) {
-                return '<ul>' + match + '</ul>';
-            });
-            
-            // Convert line breaks to paragraphs
-            html = html.split('\n\n').map(para => {
-                para = para.trim();
-                if (para && !para.startsWith('<h') && !para.startsWith('<ul') && !para.startsWith('<li')) {
-                    return '<p>' + para + '</p>';
-                }
-                return para;
-            }).join('\n');
-            
-            return html;
-        }
-
-        // Generate Table of Contents
-        function generateTOC() {
-            const content = document.getElementById('content');
-            const toc = document.getElementById('toc');
-            const headings = content.querySelectorAll('h1, h2, h3, h4');
-            
-            headings.forEach((heading, index) => {
-                // Create ID for heading if it doesn't have one
-                if (!heading.id) {
-                    heading.id = 'heading-' + index;
-                }
-                
-                // Create TOC item
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.href = '#' + heading.id;
-                a.textContent = heading.textContent;
-                
-                // Add level class for styling
-                const headingLevel = heading.tagName.toLowerCase().replace('h', '');
-                a.classList.add('level-' + headingLevel);
-                
-                li.appendChild(a);
-                toc.appendChild(li);
-            });
-        }
-
         // Highlight active section in TOC
         function highlightActiveTOC() {
-            const sections = document.querySelectorAll('h1, h2, h3, h4');
+            const sections = document.querySelectorAll('h2[id]');
             const tocLinks = document.querySelectorAll('.toc a');
             
             let currentSection = '';
-            const scrollPosition = window.scrollY + 100;
+            const scrollPosition = window.scrollY + 150;
             
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
@@ -328,39 +475,19 @@
             
             tocLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + currentSection) {
+                const href = link.getAttribute('href');
+                if (href === '#' + currentSection) {
                     link.classList.add('active');
                 }
             });
         }
-
-        // Load content from instruction.md
-        // Note: When GitHub Pages serves from docs/ folder, '../instruction.md' correctly points to the repo root
-        async function loadContent() {
-            try {
-                const response = await fetch('../instruction.md');
-                const markdown = await response.text();
-                const html = parseMarkdownContent(markdown);
-                document.getElementById('content').innerHTML = html;
-                generateTOC();
-                highlightActiveTOC();
-            } catch (error) {
-                console.error('Error loading content:', error);
-                document.getElementById('content').innerHTML = '<p>Error loading content. Please check that instruction.md exists in the repository root.</p>';
-            }
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            loadContent();
-        });
 
         // Update active TOC item on scroll
         window.addEventListener('scroll', highlightActiveTOC);
 
         // Smooth scroll for TOC links
         document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A' && e.target.getAttribute('href').startsWith('#')) {
+            if (e.target.tagName === 'A' && e.target.getAttribute('href') && e.target.getAttribute('href').startsWith('#')) {
                 e.preventDefault();
                 const targetId = e.target.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
@@ -368,6 +495,11 @@
                     targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            highlightActiveTOC();
         });
     </script>
 </body>

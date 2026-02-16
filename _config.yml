@@ -5,8 +5,13 @@
 # theme: jekyll-theme-cayman
 
 # Title and description
-title: Data Transfer System
-description: Centralized Data Management Solution
+title: Secure File Transfer Guide
+description: Guide for secure file transfer using age encryption and OneDrive/SharePoint
+
+# Site settings
+author: Epigenica Data Transfer System
+baseurl: ""
+url: ""
 
 # Include the docs directory
 # GitHub Pages will serve from the docs folder when configured in repository settings
