@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Transfer System - Instructions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        /* Header with banner */
+        .header-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Logo */
+        .logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            z-index: 1000;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        /* Floating Table of Contents */
+        .toc-container {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            width: 280px;
+            max-height: calc(100vh - 140px);
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            overflow-y: auto;
+            z-index: 999;
+            padding: 20px;
+        }
+
+        .toc-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .toc {
+            list-style: none;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: #555;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: block;
+            padding: 5px 0;
+        }
+
+        .toc a:hover {
+            color: #3498db;
+            padding-left: 5px;
+        }
+
+        .toc .active {
+            color: #3498db;
+            font-weight: bold;
+            padding-left: 5px;
+        }
+
+        /* Nested TOC levels */
+        .toc .level-2 {
+            padding-left: 15px;
+        }
+
+        .toc .level-3 {
+            padding-left: 30px;
+            font-size: 13px;
+        }
+
+        /* Main content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            margin-right: 320px; /* Space for TOC */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            scroll-margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 2em;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: #34495e;
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: #34495e;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        /* Responsive design */
+        @media (max-width: 1200px) {
+            .toc-container {
+                display: none;
+            }
+
+            .content {
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar for TOC */
+        .toc-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .toc-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .toc-container::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 3px;
+        }
+
+        .toc-container::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <img src="logo.png" alt="DTS Logo" class="logo">
+
+    <!-- Header Banner -->
+    <img src="header-banner.png" alt="Data Transfer System Header" class="header-banner">
+
+    <!-- Floating Table of Contents -->
+    <div class="toc-container">
+        <div class="toc-title">Table of Contents</div>
+        <ul class="toc" id="toc"></ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content" id="content">
+            <!-- Content will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to convert markdown-style content to HTML
+        function parseMarkdownContent(markdown) {
+            let html = markdown;
+            
+            // Convert headers
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+            
+            // Convert bold text
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Convert inline code
+            html = html.replace(/`(.*?)`/g, '<code>$1</code>');
+            
+            // Convert lists - ordered
+            html = html.replace(/^\d+\.\s+(.*$)/gim, '<li>$1</li>');
+            
+            // Convert lists - unordered
+            html = html.replace(/^-\s+(.*$)/gim, '<li>$1</li>');
+            
+            // Wrap consecutive list items in ul/ol tags
+            html = html.replace(/(<li>.*<\/li>\n?)+/g, function(match) {
+                return '<ul>' + match + '</ul>';
+            });
+            
+            // Convert line breaks to paragraphs
+            html = html.split('\n\n').map(para => {
+                para = para.trim();
+                if (para && !para.startsWith('<h') && !para.startsWith('<ul') && !para.startsWith('<ol') && !para.startsWith('<li')) {
+                    return '<p>' + para + '</p>';
+                }
+                return para;
+            }).join('\n');
+            
+            return html;
+        }
+
+        // Generate Table of Contents
+        function generateTOC() {
+            const content = document.getElementById('content');
+            const toc = document.getElementById('toc');
+            const headings = content.querySelectorAll('h1, h2, h3, h4');
+            
+            headings.forEach((heading, index) => {
+                // Create ID for heading if it doesn't have one
+                if (!heading.id) {
+                    heading.id = 'heading-' + index;
+                }
+                
+                // Create TOC item
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#' + heading.id;
+                a.textContent = heading.textContent;
+                
+                // Add level class for styling
+                const level = heading.tagName.toLowerCase().replace('h', '');
+                a.classList.add('level-' + level);
+                
+                li.appendChild(a);
+                toc.appendChild(li);
+            });
+        }
+
+        // Highlight active section in TOC
+        function highlightActiveTOC() {
+            const sections = document.querySelectorAll('h1, h2, h3, h4');
+            const tocLinks = document.querySelectorAll('.toc a');
+            
+            let currentSection = '';
+            const scrollPosition = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollPosition >= sectionTop) {
+                    currentSection = section.id;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Load content from instruction.md
+        async function loadContent() {
+            try {
+                const response = await fetch('../instruction.md');
+                const markdown = await response.text();
+                const html = parseMarkdownContent(markdown);
+                document.getElementById('content').innerHTML = html;
+                generateTOC();
+                highlightActiveTOC();
+            } catch (error) {
+                console.error('Error loading content:', error);
+                document.getElementById('content').innerHTML = '<p>Error loading content. Please check that instruction.md exists.</p>';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadContent();
+        });
+
+        // Update active TOC item on scroll
+        window.addEventListener('scroll', highlightActiveTOC);
+
+        // Smooth scroll for TOC links
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
