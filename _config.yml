@@ -1,0 +1,12 @@
+# GitHub Pages Configuration
+# This file configures GitHub Pages for the Data Transfer System documentation
+
+# Theme (optional - we're using custom HTML)
+# theme: jekyll-theme-cayman
+
+# Title and description
+title: Data Transfer System
+description: Centralized Data Management Solution
+
+# Include the docs directory
+# GitHub Pages will serve from the docs folder when configured in repository settings
